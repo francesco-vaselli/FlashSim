@@ -1,5 +1,7 @@
 ## Normalizing FlashSim: A Deep Learning Approach to the HEP simulation problem
 
+[![Made with MkDocs](https://img.shields.io/badge/docs-passing-green)](https://francesco-vaselli.github.io/nfs/)
+
 The current repository presents the original code implementation for a *Flash Simulation* approach at the CMS experiment based upon *Normalizing Flows*.
 The basic idea is expressed below:
 
