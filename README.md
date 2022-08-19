@@ -1,4 +1,4 @@
-## Normalizing FlashSim: A Deep Learning Approach to the HEP simulation problem
+## FlashSim: A Deep Learning Solution to the HEP simulation problem
 
 [![Made with MkDocs](https://img.shields.io/badge/docs-online-green)](https://francesco-vaselli.github.io/FlashSim/)
 
