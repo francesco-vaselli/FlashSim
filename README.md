@@ -1,5 +1,8 @@
 ## FlashSim: A Deep Learning Solution to the HEP simulation problem
 
+
+# PLEASE NOTE THAT THIS IS STILL A WORK IN PROGRESS AND WILL BE UPDATED IN THE NEAR FUTURE
+
 [![Made with MkDocs](https://img.shields.io/badge/docs-online-green)](https://francesco-vaselli.github.io/FlashSim/)
 
 The current repository presents the original code implementation for a *Flash Simulation* approach at the CMS experiment based upon *Normalizing Flows*.
