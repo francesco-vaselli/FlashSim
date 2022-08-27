@@ -4,6 +4,7 @@
 # PLEASE NOTE THAT THIS IS STILL A WORK IN PROGRESS AND WILL BE UPDATED IN THE NEAR FUTURE
 
 [![Made with MkDocs](https://img.shields.io/badge/docs-online-green)](https://francesco-vaselli.github.io/FlashSim/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 The current repository presents the original code implementation for a *Flash Simulation* approach at the CMS experiment based upon *Normalizing Flows*.
 Please consult the [docs](https://francesco-vaselli.github.io/FlashSim/) for a more comprehensive discussion.
