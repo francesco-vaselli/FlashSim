@@ -12,7 +12,7 @@ import time
 import os
 import awkward as ak
 import mynflow
-import new_upsampling
+import many_upsampling
 import pathlib
 
 if __name__ == "__main__":
@@ -59,4 +59,4 @@ if __name__ == "__main__":
     # generation loop
     for path in tqdm(files_paths):
         path_str = str(path)  # shouldn't be needed
-        new_upsampling.nbd(jet_flow, muon_flow, root, path_str, new_root)
+        many_upsampling.nbd(jet_flow, muon_flow, root, path_str, new_root)
