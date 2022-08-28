@@ -4,3 +4,10 @@ theme:
 site_name: FlashSim
 
 site_url: https://francesco-vaselli.github.io/nfs/
+
+nav:
+    - Home: index.md
+    - Preprocessing: preprocessing.md
+    - Trainings: trainings.md
+    - Generation: generation.md
+    - About: about.md
