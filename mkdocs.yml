@@ -1,5 +1,7 @@
 theme:
   name: material
+  icon:
+    repo: fontawesome/brands/github 
 
 site_name: FlashSim
 
@@ -25,6 +27,4 @@ extra_javascript:
 repo_url: https://github.com/francesco-vaselli/FlashSim
 repo_name: francesco-vaselli/FlashSim
 
-theme:
-  icon:
-    repo: fontawesome/brands/github 
+  
