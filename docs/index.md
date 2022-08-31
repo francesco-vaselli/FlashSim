@@ -10,13 +10,13 @@ We can visualize the classical simulation pipeline (*FullSim*) as being broadly 
 
 Sounds costly, doesn't it? What if we tried to use ML to *skip the last two steps* and maybe even generate data directly into the standard analysis format (NanoAOD)? See below:
 
-![The basic idea](../figures/pipeline.png)
+![The basic idea](img/pipeline.png)
 
 Where we've also shown a competing approach, *CMS FastSim*.
 
 As a first proof-of-concept we realized two networks, one for generating *Jets* and the other for *Muons*. We started from the Gen-level information of an existing NanoAOD dataset, and generated a new, original and NanoAOD-like dataset. The basic steps are as follows:
 
-![End-to-end generation](../figures/endtoend.png)
+![End-to-end generation](img/endtoend.png)
 
  Aside from a straightforward comparison between FullSim and FlashSim, this two objects allowed us to compare our results in a real-world scenario: the first steps of the CMS VBF $H \rightarrow \mu^+ \mu^-$ [analysis][1].
 
