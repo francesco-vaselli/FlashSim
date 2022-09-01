@@ -20,7 +20,7 @@ Apart from possibly dequantization, we stress that all of this transformations w
 
 ![The basic idea](img/preproce.pdf-1.jpg)
 
-Sharply peaked distribution are being converted to more broad ones during the preprocessing step. In this example the `ip3d`, the 3D impact parameter of the $\mu$ w.r.t. the primary vertex, variable gets transformed as log(`ip3d`+0.001).
+Sharply peaked distribution are being converted to more broad ones during the preprocessing step. In this example the `ip3d` variable, the 3D impact parameter of the $\mu$ w.r.t. the primary vertex, gets transformed as log(`ip3d`+0.001).
 
 All of these transforms may be implemented with a clear and natural syntax in the `Python` programming language, specifically thanks to the `pandas` package, which implements a convenient dataframe structure.
 
@@ -28,11 +28,111 @@ All of these transforms may be implemented with a clear and natural syntax in th
 
 First, we extract the Gen and RECO objects from an existing NanoAOD file. With the use of `C/C++` code (e.g. [muons_extraction.cpp][2] )
 for the `ROOT` data analysis framework, this operation can be performed rather quickly thanks to the *compiled* nature of the language being used and the powerful `ROOT::RDataFrame()` class, offering a modern, high-level interface for the manipulation of data stored in a NanoAOD `TTree`, as well as `multi-threading` and other low-level optimizations.
-The output of the \emph{extraction} step is another \texttt{.root} file containing just the selected objects.
 
-```python
-your_code = do_some_stuff
+The basic idea for the extraction process is to define some functions and using the `df.Define()` method for calling the function on the selected rows and columns
+
+```c
+auto DeltaPhi(ROOT::VecOps::RVec<float> &Phi1, ROOT::VecOps::RVec<float> &Phi2) {
+	/* Calculates the DeltaPhi between two RVecs
+	*/
+	auto size = Phi1.size();
+   	ROOT::VecOps::RVec<float> dphis;
+	dphis.reserve(size);
+	for (size_t i = 0; i < size; i++) {
+		Double_t dphi = TVector2::Phi_mpi_pi(Phi1[i]-Phi2[i]);
+		dphis.emplace_back(dphi);
+	}
+	return dphis;
+	}
+
+//stuff 
+
+// f is NanoAOD file
+ROOT::RDataFrame d("Events",f);
+
+// create first mask
+auto d_def = d.Define("MuonMask", "Muon_genPartIdx >=0").Define("MatchedGenMuons", "Muon_genPartIdx[MuonMask]");
+
+// The main rdataframe, LAZILY defining all the new processed columns.
+// here we show the extraction of Delta Phi between gen and reco muons
+auto d_matched = d_def
+            .Define("MMuon_filteredphi", "Muon_phi      [MuonMask]")
+			.Define("MMuon_phiMinusGen", DeltaPhi,  {"MMuon_filteredphi", "MGenMuon_phi"})
+            .//other Define()s
+
+// finally process columns and save to .root file
+d_matched.Snapshot("MMuons", "MMuons.root", col_to_save);
 ```
+The output of the *extraction* step is another *.root* file containing just the selected objects. 
+
+## Ok, but what do we want to extract?!
+
+Please read this only if you are interested in the full list of targets and conditioning variables--it is quite a lengthy section and not that useful for later.
+
+The idea is being able to directly generate correctly distributed Jet objects starting from noise, for stochasticity,  but also from the values of a corresponding GenJet, as a physical-informed input for the network (a process known as *conditioning*): knowing just the generator-level information of some process, we are going to skip the Simulation, Digitization and Reconstruction steps.
+
+Because of the large number of variables, we selected a meaningful subset, containing all the necessary information for our test analysis.
+
+### Jet conditioning
+
+First of all, we selected the following 14 GenJet variables for conditioning the generation: 
+
+
+1. **The physical properties** of the GenJet, that is $\eta$, $\phi$, $m_j$, $p_T$, and the 
+2. **Parton** and **Hadron Flavour**, giving the *flavour* content of a jet as containing a specific quark or some gluons;
+
+3. **Variables correlated with the rest of the event**, as the actual properties of a jet are expected to be influenced by other objects such as muons. Computing the $\Delta$R separation between the GenJet and the GenMuons present in the event, we selected the first and second *closest muons*, and we computed the following quantities for each one:
+   - $\Delta$R, giving the separation from the GenJet, $\Delta \eta$, the $\eta$ difference from the GenJet, $\Delta p_T$, the $p_T$ difference from the GenJet, $\Delta \phi$, the $\phi$ difference from the GenJet;
+
+3. If no GenMuons were present within a cone of $\Delta$R = 0.5 from the GenJet, the corresponding values were set to a user-defined maximum.
+
+### Jet targets
+
+Then, we selected the following 17 target reconstructed variables for the matched reconstructed Jet objects:
+
+1. **The physical properties** of the Jet *with regard to* the ones of the matched GenJet: $\Delta\eta$, the $\eta_{reco} - \eta_{gen}$ difference , $\Delta\phi$, the $\phi$ difference, $R_m$, the ratio of the jet and GenJet masses, $R_{p_T}$, the ratio of $p_T$s. This was done because the Simulation and Reconstruction steps are expected to introduce corrections w.r.t. the GenJet distributions, easier to learn when considering these quantities. As an additional variable, the Jet Area, a measure of its susceptibility to radiation, like pile-up or underlying event, was added as well;
+
+2. Some of the btag discriminant variables **b-tagging and c-tagging algorithms scores**: btagCMVA, btagCSVV2, btagDeepB, btagDeepC, btagDeepFlavB and btagDeepFlavC, which indicate with a score ranging from 0 to 1 whether the Jet contains the respective quark or not, a very significant information for performing event selection during an analysis. Some values may be offsetted to -1 to indicate that the corresponding tagging algorithm has failed to assign a score to the event;
+
+3. **The bRegCorr**, the $p_T$ correction for b-jet energy regression, as the presence of neurinos due to semi-leptonic decays in the jets coming from b quarks can result in underestimated jet energy measurements;
+
+4. **The qgl score** for the Quark vs Gluon likelihood discriminator, which is employed as most of the interesting physics channels studied at the LHC involve hadronic jets initiated by quarks, while dominant backgrounds often arise from QCD events, where jets are generally produced from gluons;
+
+5. **The jetID and puID ID flags** indicating relevant characteristics of the jet as well as the event noise and pile-up.
+
+### Muons conditioning
+
+For muons we performed the same procedure, taking only those muons matching to GenMuon objects (a GenParticle object with pdgId value of +-13). 
+
+We selected 30 GenMuon variables for conditioning:
+
+\begin{outline}
+\1 \emph{The physical properties} of the GenMuon, that is $\eta$, $\phi$, \texttt{Charge} and $p_T$;
+
+\1 \emph{The 14 GenParticle status flags}, a series of \texttt{statusFlags} stored bitwise, with each bit having a different physical interpretation such as \emph{isTauDecayProduct}, \emph{fromHardProcess}, etc. ;
+
+\1 \emph{Variables correlated with the rest of the event}, as the actual properties of a muon are expected to be influenced by other objects such as jets. Computing the $\Delta$R separation between the GenMuon and the GenJets present in the event, we selected the first \emph{closest GenJet}, and we computed the following quantities:
+\2 $\Delta$R, giving the separation from the GenJet, $\Delta\eta$, the $\eta_{muon} - \eta_{jet}$ difference, $R_{p_T}$, the ratio of $p_T$s, $\Delta\phi$, the $\phi$ difference, and finally the $m_j$ of the closest GenJet;
+
+\1 A series of 6 \emph{ Event level variables regarding pile-up}:\\ \texttt{Pileup\_gpudensity}, the Generator-level PU vertices/mm,\\ \texttt{Pileup\_nPU}, the number of pile-up interactions that have been added to the event in the current bunch crossing, \texttt{Pileup\_nTrueInt}, the true mean number of the poisson distribution for this event from which the number of interactions each bunch crossing has been sampled, \texttt{Pileup\_pudensity}, PU vertices/mm, \texttt{Pileup\_sumEOOT}, the number of early out of time pile-up and \texttt{Pileup\_sumLOOT}, the number of late out of time pile-up;
+\end{outline}
+
+Then we selected 22 target variables for the Muon objects:
+
+\begin{outline}
+\1 \emph{The physical properties} of the muon \emph{with regard to} the ones of the matched GenMuon: $\Delta\eta$, the $\eta_{reco} - \eta_{gen}$ difference , $\Delta\phi$, the $\phi$ difference, $R_{p_T}$, the ratio of Gen vs reco $p_T$s. This was done because the Simulation and Reconstruction steps are expected to introduce corrections w.r.t. the GenMuon distributions, easier to learn when considering these quantities. As an additional variable, the \texttt{ptErr}, the $p_T$ error for the muon track, was selected as well;
+
+\1 Six \emph{impact parameters} with respect to the primary vertex, related to the impact parameter \emph{d}, defined at the distance between the daughter particle trajectory and the mother particle production point. It can be defined by first minimizing the distance on a plane, definig \texttt{dxy}, \texttt{dxyErr} and then minimize on the remaining axis \texttt{dz}, with its \texttt{dzErr}. Alternatively, we can minimize the distance directly in 3 dimensions, obtaining the 3D impact parameter \texttt{ip3d} and its significance \texttt{sip3d}, all expressed in cm;
+
+\1 Some \emph{Boolean flags} expressing relevant properties of the object as identified by reconstruction algorithms: \texttt{isGlobal}, \texttt{isPFcand}, identifying the muon as a Particle Flow candidate, \texttt{isTracker};
+
+\1 A series of \emph{isolation variables} returned by the Particle Flow algorithm: \texttt{pfRelIso03\_all}, \texttt{pfRelIso03\_chg} and \texttt{pfRelIso04\_all};
+
+\1 The \emph{variables related to the closest jet}: \texttt{jetPtRelv2}, indicating the relative momentum of the lepton with respect to the closest jet after subtracting the lepton and \texttt{jetRelIso}, the relative isolation in matched jet;
+
+\1 A series of \emph{ID scores}: \texttt{mediumID}, \texttt{softMVA} score and their cut-based Boolean IDs \texttt{softMVAId}, \texttt{softId};
+\end{outline}
+
 
 
  [1]: <https://francesco-vaselli.github.io/FlashSim/trainings/> "The next section" 
