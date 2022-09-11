@@ -106,32 +106,33 @@ For muons we performed the same procedure, taking only those muons matching to G
 
 We selected 30 GenMuon variables for conditioning:
 
-\begin{outline}
-\1 \emph{The physical properties} of the GenMuon, that is $\eta$, $\phi$, \texttt{Charge} and $p_T$;
 
-\1 \emph{The 14 GenParticle status flags}, a series of \texttt{statusFlags} stored bitwise, with each bit having a different physical interpretation such as \emph{isTauDecayProduct}, \emph{fromHardProcess}, etc. ;
+1. **The physical properties** of the GenMuon, that is $\eta$, $\phi$, Charge and $p_T$;
 
-\1 \emph{Variables correlated with the rest of the event}, as the actual properties of a muon are expected to be influenced by other objects such as jets. Computing the $\Delta$R separation between the GenMuon and the GenJets present in the event, we selected the first \emph{closest GenJet}, and we computed the following quantities:
-\2 $\Delta$R, giving the separation from the GenJet, $\Delta\eta$, the $\eta_{muon} - \eta_{jet}$ difference, $R_{p_T}$, the ratio of $p_T$s, $\Delta\phi$, the $\phi$ difference, and finally the $m_j$ of the closest GenJet;
+2. **The 14 GenParticle status flags**, a series of \statusFlags stored bitwise, with each bit having a different physical interpretation such as *isTauDecayProduct*, *fromHardProcess*, etc. ;
 
-\1 A series of 6 \emph{ Event level variables regarding pile-up}:\\ \texttt{Pileup\_gpudensity}, the Generator-level PU vertices/mm,\\ \texttt{Pileup\_nPU}, the number of pile-up interactions that have been added to the event in the current bunch crossing, \texttt{Pileup\_nTrueInt}, the true mean number of the poisson distribution for this event from which the number of interactions each bunch crossing has been sampled, \texttt{Pileup\_pudensity}, PU vertices/mm, \texttt{Pileup\_sumEOOT}, the number of early out of time pile-up and \texttt{Pileup\_sumLOOT}, the number of late out of time pile-up;
-\end{outline}
+3.  **Variables correlated with the rest of the event**, as the actual properties of a muon are expected to be influenced by other objects such as jets. Computing the $\Delta$R separation between the GenMuon and the GenJets present in the event, we selected the first *closest GenJet*, and we computed the following quantities:
+	- $\Delta$R, giving the separation from the GenJet, $\Delta\eta$, the $\eta_{muon} - \eta_{jet}$ difference, $R_{p_T}$, the ratio of $p_T$s, $\Delta\phi$, the $\phi$ difference, and finally the $m_j$ of the closest GenJet;
+  
+
+4. A series of 6 **Event level variables regarding pile-up**: Pileup\_gpudensity, the Generator-level PU vertices/mm,Pileup\_nPU, the number of pile-up interactions that have been added to the event in the current bunch crossing, Pileup\_nTrueInt, the true mean number of the poisson distribution for this event from which the number of interactions each bunch crossing has been sampled, Pileup\_pudensity, PU vertices/mm, Pileup\_sumEOOT, the number of early out of time pile-up and Pileup\_sumLOOT, the number of late out of time pile-up;
+
+### Muons targets
 
 Then we selected 22 target variables for the Muon objects:
 
-\begin{outline}
-\1 \emph{The physical properties} of the muon \emph{with regard to} the ones of the matched GenMuon: $\Delta\eta$, the $\eta_{reco} - \eta_{gen}$ difference , $\Delta\phi$, the $\phi$ difference, $R_{p_T}$, the ratio of Gen vs reco $p_T$s. This was done because the Simulation and Reconstruction steps are expected to introduce corrections w.r.t. the GenMuon distributions, easier to learn when considering these quantities. As an additional variable, the \texttt{ptErr}, the $p_T$ error for the muon track, was selected as well;
 
-\1 Six \emph{impact parameters} with respect to the primary vertex, related to the impact parameter \emph{d}, defined at the distance between the daughter particle trajectory and the mother particle production point. It can be defined by first minimizing the distance on a plane, definig \texttt{dxy}, \texttt{dxyErr} and then minimize on the remaining axis \texttt{dz}, with its \texttt{dzErr}. Alternatively, we can minimize the distance directly in 3 dimensions, obtaining the 3D impact parameter \texttt{ip3d} and its significance \texttt{sip3d}, all expressed in cm;
+1. **The physical properties** of the muon **with regard to** the ones of the matched GenMuon: $\Delta\eta$, the $\eta_{reco} - \eta_{gen}$ difference , $\Delta\phi$, the $\phi$ difference, $R_{p_T}$, the ratio of Gen vs reco $p_T$s. This was done because the Simulation and Reconstruction steps are expected to introduce corrections w.r.t. the GenMuon distributions, easier to learn when considering these quantities. As an additional variable, the \texttt{ptErr}, the $p_T$ error for the muon track, was selected as well;
 
-\1 Some \emph{Boolean flags} expressing relevant properties of the object as identified by reconstruction algorithms: \texttt{isGlobal}, \texttt{isPFcand}, identifying the muon as a Particle Flow candidate, \texttt{isTracker};
+2. Six **impact parameters** with respect to the primary vertex, related to the impact parameter \emph{d}, defined at the distance between the daughter particle trajectory and the mother particle production point. It can be defined by first minimizing the distance on a plane, definig dxy, dxyErr and then minimize on the remaining axis dz, with its dzErr. Alternatively, we can minimize the distance directly in 3 dimensions, obtaining the 3D impact parameter ip3d and its significance sip3d, all expressed in cm;
 
-\1 A series of \emph{isolation variables} returned by the Particle Flow algorithm: \texttt{pfRelIso03\_all}, \texttt{pfRelIso03\_chg} and \texttt{pfRelIso04\_all};
+3. Some **Boolean flags** expressing relevant properties of the object as identified by reconstruction algorithms: isGlobal, isPFcand, identifying the muon as a Particle Flow candidate, isTracker;
 
-\1 The \emph{variables related to the closest jet}: \texttt{jetPtRelv2}, indicating the relative momentum of the lepton with respect to the closest jet after subtracting the lepton and \texttt{jetRelIso}, the relative isolation in matched jet;
+4. A series of **isolation variables** returned by the Particle Flow algorithm: pfRelIso03\_all, pfRelIso03\_chg and pfRelIso04\_all;
 
-\1 A series of \emph{ID scores}: \texttt{mediumID}, \texttt{softMVA} score and their cut-based Boolean IDs \texttt{softMVAId}, \texttt{softId};
-\end{outline}
+5. The **variables related to the closest jet**: jetPtRelv2, indicating the relative momentum of the lepton with respect to the closest jet after subtracting the lepton and jetRelIso, the relative isolation in matched jet;
+
+6. A series of **ID scores**: mediumID, softMVA scores and their cut-based Boolean IDs softMVAId, softId;
 
 
 
