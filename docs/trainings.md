@@ -24,8 +24,10 @@ Intuitively, this equation says that the density of $x$ is equal to the density 
  It is clear that, if we have $K$ transforms $f_{(1)}, f_{(2)},\ldots,f_{(K)}$, then the log-density of the transformed variable $\mathbf{x}=(f_{(1)}\circ f_{(2)}\circ\cdots\circ f_{(K)})(\mathbf{z})$ is:
 	
 $$
-			\log(p_x(\mathbf{x})) = \log\left(p_z\left(\left(f_{(K)}^{-1}\circ\cdots\circ f_{(1)}^{-1}\right)\left(\mathbf{x}\right)\right)\right)
-			+\sum^{K}_{k=1}\log\left(\left|\frac{df^{-1}_{(k)}(\mathbf{x}_{(k)})}{d\mathbf{x}'}\right|\right)
+			\begin{aligned}
+			\log(p_x(\mathbf{x})) &= \log\left(p_z\left(\left(f_{(K)}^{-1}\circ\cdots\circ f_{(1)}^{-1}\right)\left(\mathbf{x}\right)\right)\right)+\\
+			&+\sum^{K}_{k=1}\log\left(\left|\frac{df^{-1}_{(k)}(\mathbf{x}_{(k)})}{d\mathbf{x}'}\right|\right)
+		\end{aligned}
 $$
 	
 This relationship between the base distribution and the transformed one through this chain of invertible transforms is at the core of the NF approach and is illustrated in the following figure: how can we find a chain of invertible transformations to send $p_z(\mathbf{z})$ to $p_x(\mathbf{x})$? Taken from [here][2].
@@ -88,7 +90,7 @@ The full Jacobian determinant can simply be calculated from the product of the d
 This significantly speeds up the calculations.
 
 ### Splines 
-So far, we did not define the family of functions to use as our $ f_i(\vec z_{d+1:D}; \, \phi(\vec z_{1:d}))$.
+So far, we did not define the family of functions to use as our $f_i(\vec z_{d+1:D}; \, \phi(\vec z_{1:d}))$.
 There are many possible bijections which one can use in building a NF. Recent advancements have demonstrated the suitability of *rational-quadratic spline transforms* (see [Durkan et al.][3]). 
 
 A monotonic spline is a piecewise function consisting of K segments, where each segment is a simple function that is easy to invert. Specifically, given a set of K+1 input locations $l_{0}, \dots, l_K$ , the transformation
@@ -114,7 +116,7 @@ The theory of Normalizing Flows is also easily generalized to conditional distri
 
 In practice, this is usually accomplished by making the parameters for a known normalizing flow bijection $f$ the output of a neural network that inputs $\mathbf{c}$ as well as one of the subsets of the coupling layer. It is thus straightforward to condition event generation on some ground truth, e.g. the Monte Carlo Gen values of a specific event that we wish to simulate. For example, the reconstructed transverse momentum $p_T$ for a jet is expected to be positively correlated to the Gen $p_T$, as are its mass and other key quantities; so we pass the Gen values as inputs to $\phi$.
 
-## The models
+## Models
 
 The following figure shows the final architectures for both jets and muons.  Where two numbers are separated by a slash, the first refers to the muons model, the second to the jets one.
 
@@ -125,7 +127,7 @@ As discussed before, the full model is composed of a *chain* of individual splin
 
 For each spline, the inputs are permuted and then splitted in half, sending half as parameters and half as argument of the *spline transform*. The conditioning Gen-level variables **y** are sent as input to a complex 10 layer fully-connected *residual* network (a different one for each transform) which defines the parameters for the spline. Its most relevant hyperparameters are the *hidden\_dim*, the number of nodes per hidden layer, set to 256 for the muons model and to 298 for the jets one, the *n\_bin*, the number of bins for the spline, set to 128 for both models and the *n\_blocks* set to 10 for both and defining the number of hidden layers.
 
-## The key training concepts
+## Key training concepts
 
 The code for the training is commented (see [the GitHub repo][1]), thus you should be able to infer most of the steps from comments alone.
 This page serves to discuss the most relevant training facts and choices in terms of hyperparameters, and to point at possible improvements and variations.
@@ -167,7 +169,7 @@ We will proceed to list them with a brief explanation for the chosen value:
   - The *hidden dimension* specify how many nodes per layer the network should have.
 - Finally, while creating the full model we must specify three numbers: the input variables number, the conditioning variables number and the *number of flow steps*, specifying how many splines the full model should have. We went with the exact same number as the input parameters. Because of the linear permutations and the coupling split at each flow step, this meant that eventually all variables will be generated with the others as conditioning--an ideal scenario for ensuring good correlations.
 
-## The dataset classes
+## Dataset classes
 
 Remember that we trained on 5 millions of jets/muons. Because jets are numerous in our training process ($t\overline{t}$), we used a simple dataset for jets as we needed to open just one file to access the whole 5 millions jets.
 
@@ -271,7 +273,7 @@ class H5Dataset(Dataset):
 
 Despite the different approaches, we observed that **the data loading step may actually be a severe bottleneck in our training** as the GPU utilization heavily fluctuated between 40% and 70% most of the time. When we tried to implement a dataset similar to the muons' one for the jets we observed a significant slowdown, suggesting that the dataset classes may be part of the problem.
 
-## The cosine annealing
+## Cosine annealing
 
 It should be noted that the learning rate for both models was constantly updated through the *cosine annealing* procedure.
 
@@ -281,7 +283,7 @@ $$\eta_{t} = \eta_{min} + \frac{1}{2}\left(\eta_{max}-\eta_{min}\right)\left(1+\
 
 were $\eta$ is the learning rate and $T$ the training epoch.
 
-## The losses
+## Training losses
 
 We show here the losses for both models during training. Please note that the validation loss has been averaged over the last 5 epochs.
 
