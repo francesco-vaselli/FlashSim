@@ -54,7 +54,7 @@ Let's have a look at code of the reading and structuring for muons:
     dfm.reset_index(drop=True)
 ```
 
-The variable `muons_ev_index` stores the event number. This is needed becaouse some events may be missing muons and will not be listed: if event 3 has no muons the list will be `[0, 1, 2, 4, ..., 1287960]`.  
+The variable `muons_ev_index` stores the event number. This is needed because some events may be missing muons and will not be listed: if event 3 has no muons the list will be `[0, 1, 2, 4, ..., 1287960]`.  
 
 The `events_structure_muons` variable is a list of the number of muons in each event (i.e. `[3, 2, ..., 1, 2]`), ordered in the same way as `muons_ev_index`. Both are being extracted directly from the pandas multiindex structure which is generated directly from Uproot. This has the advantage of avoiding needles looping and counting over the events.
 
@@ -99,3 +99,31 @@ Once we have the outputs of our networks, we simply restructure them into a jagg
 
     return
 ```
+
+## Upsampling
+
+Because we are generating events so fast, the production of new GEN samples becomes the next speed bottleneck. We investigated the *upsampling* procedure, that is sampling multiple times from the same GEN sample, as a way to mitigate the bottleneck. The results and statistical handling are discussed in the next section; here we discuss the changes to the generation code.
+
+We used the following strategy:
+
+```python
+    # main difference from 1to1 case: we need to produce 
+    # an upsampled index for saving the right topology later
+    numb_ev = dfm.index.get_level_values(0).values
+    # use list comprehension to save the new event list
+    # (if UPSAMPLING_FACTOR=1 GO from [0, 1, 2] to [0, 1, 2, 3, 4, 5])
+    l = [numb_ev + n * (numb_ev[-1] + 1) for n in np.arange(0, UPSAMPLE_FACTOR)]
+    numb_ev = np.concatenate(l, axis=0)
+    # main upsampling idea: concatenate multiple copies 
+    # of the original df
+    dfm = pd.concat([dfm] * UPSAMPLE_FACTOR, axis=0)
+    numb_sub_ev = dfm.index.get_level_values(1).values
+    up_index = pd.MultiIndex.from_arrays(
+        [numb_ev, numb_sub_ev], names=["event", "object"]
+    )
+    dfm = dfm.set_index(up_index)
+```
+
+We defined a global `UPSAMPLING_FACTOR = n` defining how many throws should be performed for each event. Then, we created a new event index repeating the original event structure n times. We concatenated the original dataframe n times and applied the new structure. 
+
+In this way, each event is repeated exactly n times, one repetition at a time in the original ordering.
