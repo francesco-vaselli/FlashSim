@@ -2,6 +2,8 @@ theme:
   name: material
   icon:
     repo: fontawesome/brands/github 
+    admonition:
+      warning: material/alert
 
 site_name: FlashSim
 
@@ -23,8 +25,8 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
-
-
+  - admonition
+  - pymdownx.details
 
 extra_javascript:
   - javascripts/mathjax.js
