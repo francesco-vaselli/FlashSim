@@ -1,5 +1,14 @@
 This long section serves to present in a comprehensive way the results obtained.
 
+To perform a sound and reasonable comparison, we extract the Gen-values for conditioning from $10^{5}$ t$\overline{\text{t}}$ samples coming from an unseen test set for jets and from the validation set (which was not used for training but just for evaluating the loss over time) for muons. We then generate new analysis samples using FlashSim and starting from the same Gen-values, to get a one-to-one correspondence between the them and FullSim samples.
+
+We performed two main types of comparison on the obtained samples: we compared the 1-d *distribution* and the 2-d *correlations* for any pair of variables.
+We inspected the latter visually thanks to *contour plots*, but we wanted to have a precise measure for the similarity of the empirical distributions between two samples. We thus choose the *Wasserstein distance*, defined as:
+
+$$W_1(u, v) = \inf_{\pi \in \Gamma(u, v)}\int_{\mathbb{R}\times\mathbb{R}}|x-y|d\pi(x,y) = \int_{-\infty}^{+\infty} |U - V|$$
+
+where $\Gamma(u, v)$ is the set of (probability) distributions on $\mathbb{R}\times\mathbb{R}$ whose marginals are $u$ and $v$ on the first and second factors respectively, and $U$, $V$ are the respective CDFs. Intuitively, if each distribution is viewed as a unit amount of earth (soil), the metric is the minimum \emph{cost} of turning one pile into the other, which is assumed to be the amount of earth that needs to be moved times the mean distance it has to be moved, and thus this metric is also know informally as the *earth mover distance*.
+
 ## Jets Results
 
 ### 1D
@@ -64,6 +73,20 @@ Because our results are not as close to FullSim as it was for 2-d correlations, 
 
 ## Speed
 
+A crucial result obtained is the *generation speed*: for both jets and muons we managed to generate samples in batches of $10^{4}$ in $\approx$ 0.3 seconds each, corresponding to a generation speed of raw samples of about 33,300 *samples per second* (33 kHz) *meaning a six orders of magnitude speedup when compared to FullSim and four orders of magnitude speedup when compared to FastSim*! Even considering possible reduction due to preprocessing and data loading, this result testify to the potential of the current methodology to completely redefine our approach to event simulation, at least at the NanoAOD level.
+
+What is more, the $10^{4}$ batch size for generation was limited only by the VRAM of the GPU being used, meaning that more powerful GPUs, ideally working in parallel, could achieve even faster generation times.
+
 ## Results on unseen processes
 
+We actually extended the use of the models to *unseen, different physical processes*: *Drell-Yan two-jets* (DY), *Electroweak two-muons two-jets* (EWK LLJJ) and two *Signal* (H$\rightarrow\mu^+\mu^-$) datasets were processed as well and stored for the comparison of the next chapter. Some results, are showed below and emphasize how our approach has correctly learned to simulate the interaction and reconstruction of the CMS detector, giving consistent results independently from the input process.
+
+![ewk](img/ewkeval7.pdf-1.jpg)
+![hmm](img/hmmeval2.pdf-1.jpg)
+![dy](img/dycorrs.pdf-1.jpg)
+
 ## Benchmark analysis
+
+Having described in detail our innovative approach to event simulation, and having applied it to generated events for which we have the FullSim sample, we decided to repeat the basic steps of a recent analysis to demonstrate the feasibility of our model in a real-case scenario.
+
+## Upsampling
