@@ -124,6 +124,6 @@ We used the following strategy:
     dfm = dfm.set_index(up_index)
 ```
 
-We defined a global `UPSAMPLING_FACTOR = n` defining how many throws should be performed for each event. Then, we created a new event index repeating the original event structure n times. We concatenated the original dataframe n times and applied the new structure. 
+We defined a global `UPSAMPLE_FACTOR = n` defining how many throws should be performed for each event. Then, we created a new event index repeating the original event structure n times. We concatenated the original dataframe n times and applied the new structure. 
 
 In this way, each event is repeated exactly n times, one repetition at a time in the original ordering.

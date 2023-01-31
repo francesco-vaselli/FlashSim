@@ -54,7 +54,7 @@ $$
 Supposing we had a set of training samples $\{\mathbf{x}\}^N_n$ from the target pdf, we may estimate the expectation value over $p_x^*(\mathbf{x})$ by Monte Carlo as:
 
 $$
-\mathcal{L}(\phi) \approx -\frac{1}{N} \sum_n [\log(p_z(f^{-1}(\mathbf{x}; \, \phi)))+\log\left(\det\mathbb{J}_{f^{-1}}(\mathbf{x}_n; \, \phi)\right)] +\; \text{const.}
+\mathcal{L}(\phi) \approx -\frac{1}{N} \sum_n [\log(p_z(f^{-1}(\mathbf{x}_n; \, \phi)))+\log\left(\det\mathbb{J}_{f^{-1}}(\mathbf{x}_n; \, \phi)\right)] +\; \text{const.}
 $$
 
 Note that, in comparison with other generative models such as GANs, a decrease in the loss function actually implies an improvement in the performance of the model.
