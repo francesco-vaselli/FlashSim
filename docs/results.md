@@ -236,25 +236,25 @@ Additionally, the importance of the interaction with the detector and of the rec
    
    Usually, if we are interested in finding the discrete *pdf* from an histogram, assuming a *poisson* statistics the pdf *i*-th bin and its error are defined as:
    
-  $$
-   pdf_i = \frac{\sum_{ev \in i}{w_{ev}}}{\sum_{ev}{w_{ev}}}; \quad 
-        \sigma_i = \frac{\sqrt{\sum_{ev \in i}{w_{ev}^2}}}{\sum_{ev}{w_{ev}}}
-  $$
-    
+$$
+  pdf_i = \frac{\sum_{ev \in i}{w_{ev}}}{\sum_{ev}{w_{ev}}}; \quad 
+      \sigma_i = \frac{\sqrt{\sum_{ev \in i}{w_{ev}^2}}}{\sum_{ev}{w_{ev}}}
+$$
+  
   Where the *w*s are the weights for each event and they are typically set to 1.
    In the upsampling case instead, we have N upsampled events with a common Gen-event (called *folds*), and thus we obtain:
    
-  $$
-  pdf_i = \frac{\sum_{ev}\sum_{fold\in i}{w_{ev}}}{N_{fold}\sum_{ev}{w_{ev}}} = \frac{\sum_{ev}\sum_{fold\in i}{w_{ev}/N_{fold}}}{\sum_{ev}{w_{ev}}} =
-  \frac{\sum_{ev}{w_{ev}pdf_i^{ev}}}{\sum_{ev}{w_{ev}}}
-  $$
+$$
+pdf_i = \frac{\sum_{ev}\sum_{fold\in i}{w_{ev}}}{N_{fold}\sum_{ev}{w_{ev}}} = \frac{\sum_{ev}\sum_{fold\in i}{w_{ev}/N_{fold}}}{\sum_{ev}{w_{ev}}} =
+\frac{\sum_{ev}{w_{ev}pdf_i^{ev}}}{\sum_{ev}{w_{ev}}}
+$$
       
   That is, each event may now enter multiple bins as it has been upsampled by a factor N--this is the same as saying that we can sum the pdf of each single event to obtain the final pdf. For the errors we consider folds from the same events entering different bins as uncorrelated, with a weight proportional to the number of folds entering the same bin. By recovering the initial error formula we get:
   
-  $$
-  \sigma_i = \frac{\sqrt{\sum_{ev}(\sum_{fold\in i}{w_{ev}/N_{fold})^2}}}{\sum_{ev}{w_{ev}}} =
-    \frac{\sqrt{\sum_{ev}{(w_{ev}pdf_i^{ev})^2}}}{\sum_{ev}{w_{ev}}}
-  $$
+$$
+\sigma_i = \frac{\sqrt{\sum_{ev}(\sum_{fold\in i}{w_{ev}/N_{fold})^2}}}{\sum_{ev}{w_{ev}}} =
+  \frac{\sqrt{\sum_{ev}{(w_{ev}pdf_i^{ev})^2}}}{\sum_{ev}{w_{ev}}}
+$$
   
   Practically speaking, for each event, we let the N upsampled events fill the histogram, and then defined the pdf of a single event as (bin content)/N, a quantity also used for determining the new statistical error. The resulting pdfs are then summed together to obtain the final histogram. This procedure is necessary to ensure that we are properly accounting for upsampled events filling the same bin--e.g. we want to have no difference between the 1-to-1 approach and the case where all events fill the same bin.
   
