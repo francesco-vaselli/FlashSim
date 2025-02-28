@@ -1,7 +1,7 @@
 ## FlashSim: A Deep Learning Solution to the HEP simulation problem
 
 
-# PLEASE NOTE THAT THIS IS STILL A WORK IN PROGRESS AND WILL BE UPDATED IN THE NEAR FUTURE
+## PLEASE NOTE THAT THIS IS AN OLD PROTOTYPE FOR MY MASTER THESIS. CURRENT DEVELOPMENT IS HAPPENING INTERNALLY IN CMS @ CERN
 
 [![Made with MkDocs](https://img.shields.io/badge/docs-online-green)](https://francesco-vaselli.github.io/FlashSim/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
