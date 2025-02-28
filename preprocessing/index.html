@@ -1,0 +1,763 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://francesco-vaselli.github.io/nfs/preprocessing/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../trainings/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.5">
+    
+    
+      
+        <title>Preprocessing - FlashSim</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.8608ea7d.min.css">
+      
+      
+  
+  
+    
+    
+  
+  
+  <style>:root{--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14h-2V9h2m0 9h-2v-2h2M1 21h22L12 2z"/></svg>');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#what-we-did-and-why-we-did-it" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="FlashSim" class="md-header__button md-logo" aria-label="FlashSim" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FlashSim
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Preprocessing
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/francesco-vaselli/FlashSim" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    francesco-vaselli/FlashSim
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="FlashSim" class="md-nav__button md-logo" aria-label="FlashSim" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    FlashSim
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/francesco-vaselli/FlashSim" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    francesco-vaselli/FlashSim
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Preprocessing
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Preprocessing
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-we-did-and-why-we-did-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      What we did and why we did it
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extraction-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extraction details
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ok-but-what-do-we-want-to-extract" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ok, but what do we want to extract?!
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ok, but what do we want to extract?!">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jet-conditioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Jet conditioning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jet-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Jet targets
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#muons-conditioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Muons conditioning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#muons-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Muons targets
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../trainings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Trainings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../generation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Generation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../results/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Results
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    About
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-we-did-and-why-we-did-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      What we did and why we did it
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extraction-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extraction details
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ok-but-what-do-we-want-to-extract" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ok, but what do we want to extract?!
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ok, but what do we want to extract?!">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jet-conditioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Jet conditioning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jet-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Jet targets
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#muons-conditioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Muons conditioning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#muons-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Muons targets
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Preprocessing</h1>
+
+<h2 id="what-we-did-and-why-we-did-it">What we did and why we did it</h2>
+<p>We processed the NanoAOD files and extracted all the Jet objects matched to a GenJet object and the Muon objects matched to a GenMuon across all the events in the file.
+The output of the <em>extraction</em> step is another <code>.root</code> file containing just the selected objects. We need this 1-to-1 matching because we want to pass the RECO objects as targets and the corresponding Gen objects as <em>conditioning</em> to the models (see <a href="https://francesco-vaselli.github.io/FlashSim/trainings/" title="The next section">Trainings</a> section), that is we want the output to depend on the physical inputs of the various possible processes.</p>
+<p>The resulting file is still organized according to the Events structure (that is, a single event may contain an arbitrary number of jets and muons). Besides, we know that many machine learning algorithms work best when specific distributions are <em>preprocessed</em> according to specifc criteria. Normalizing Flows are no exception. Specifically, there are four key features which should be accounted for and modified through preprocessing before training:</p>
+<ol>
+<li>
+<p>Because NF are learning actual pdfs, <em>large gaps</em> between values of the distribution may disturb training and trick the network to <em>bridge</em> the extremes of the distribution by creating spurious samples in the gap. When possible, the gaps should be reduced and the values packed closer together;</p>
+</li>
+<li>
+<p>As NF assume a continuous and differentiable pdf, they are not well suited to deal with <em>discrete</em> distributions. Thus, we should apply a process known as <em>dequantization</em>, that is applying some sort of smearing to the discrete values to make them similar to those sampled from a continuous distribution;</p>
+</li>
+<li>
+<p>For similar reasons as before, when possible it would be beneficial to widen and normalize steeply falling distributions through invertible transforms such as log(x). If well separated, eventual peaks may be dequantized as well;</p>
+</li>
+<li>
+<p>Finally, we opted for <em>saturating</em> long tails of distributions to some limiting values, in order to make it easier for the model to learn the pdf in the more populated region.</p>
+</li>
+</ol>
+<p>Apart from possibly dequantization, we stress that all of this transformations were implemented to make training easier but are not strictly necessary--the models revealed themselves as powerful enough to deal with complex, sharply peaked, long tailed distributions. However, having already implemented the preprocessing pipeline and because it did not introduce a big overhead in the procedure, we decided to keep it for the present work. An example of one of the possible preprocessing operations is shown in the following figure:</p>
+<p><img alt="The basic idea" src="../img/preproce.pdf-1.jpg" /></p>
+<p>Sharply peaked distribution are being converted to more broad ones during the preprocessing step. In this example the <code>ip3d</code> variable, the 3D impact parameter of the <span class="arithmatex">\(\mu\)</span> w.r.t. the primary vertex, gets transformed as log(<code>ip3d</code>+0.001).</p>
+<p>All of these transforms may be implemented with a clear and natural syntax in the <code>Python</code> programming language, specifically thanks to the <code>pandas</code> package, which implements a convenient dataframe structure.</p>
+<h2 id="extraction-details">Extraction details</h2>
+<p>First, we extract the Gen and RECO objects from an existing NanoAOD file. With the use of <code>C/C++</code> code (e.g. <a href="https://github.com/francesco-vaselli/FlashSim/blob/main/preprocessing/muons_extraction.cpp" title="muons script">muons_extraction.cpp</a> )
+for the <code>ROOT</code> data analysis framework, this operation can be performed rather quickly thanks to the <em>compiled</em> nature of the language being used and the powerful <code>ROOT::RDataFrame()</code> class, offering a modern, high-level interface for the manipulation of data stored in a NanoAOD <code>TTree</code>, as well as <code>multi-threading</code> and other low-level optimizations.</p>
+<p>The basic idea for the extraction process is to define some functions and using the <code>df.Define()</code> method for calling the function on the selected rows and columns</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">auto</span><span class="w"> </span><span class="n">DeltaPhi</span><span class="p">(</span><span class="n">ROOT</span><span class="o">::</span><span class="n">VecOps</span><span class="o">::</span><span class="n">RVec</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="n">Phi1</span><span class="p">,</span><span class="w"> </span><span class="n">ROOT</span><span class="o">::</span><span class="n">VecOps</span><span class="o">::</span><span class="n">RVec</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="n">Phi2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="cm">/* Calculates the DeltaPhi between two RVecs</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="cm">    */</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Phi1</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="n">ROOT</span><span class="o">::</span><span class="n">VecOps</span><span class="o">::</span><span class="n">RVec</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">dphis</span><span class="p">;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="n">dphis</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">        </span><span class="n">Double_t</span><span class="w"> </span><span class="n">dphi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TVector2</span><span class="o">::</span><span class="n">Phi_mpi_pi</span><span class="p">(</span><span class="n">Phi1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">Phi2</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">        </span><span class="n">dphis</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">dphi</span><span class="p">);</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dphis</span><span class="p">;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="c1">//stuff </span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="c1">// f is NanoAOD file</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="n">ROOT</span><span class="o">::</span><span class="n">RDataFrame</span><span class="w"> </span><span class="n">d</span><span class="p">(</span><span class="s">&quot;Events&quot;</span><span class="p">,</span><span class="n">f</span><span class="p">);</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="c1">// create first mask</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="k">auto</span><span class="w"> </span><span class="n">d_def</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">Define</span><span class="p">(</span><span class="s">&quot;MuonMask&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Muon_genPartIdx &gt;=0&quot;</span><span class="p">).</span><span class="n">Define</span><span class="p">(</span><span class="s">&quot;MatchedGenMuons&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Muon_genPartIdx[MuonMask]&quot;</span><span class="p">);</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="c1">// The main rdataframe, LAZILY defining all the new processed columns.</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="c1">// here we show the extraction of Delta Phi between gen and reco muons</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="k">auto</span><span class="w"> </span><span class="n">d_matched</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d_def</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">            </span><span class="p">.</span><span class="n">Define</span><span class="p">(</span><span class="s">&quot;MMuon_filteredphi&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Muon_phi      [MuonMask]&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">            </span><span class="p">.</span><span class="n">Define</span><span class="p">(</span><span class="s">&quot;MMuon_phiMinusGen&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">DeltaPhi</span><span class="p">,</span><span class="w">  </span><span class="p">{</span><span class="s">&quot;MMuon_filteredphi&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;MGenMuon_phi&quot;</span><span class="p">})</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">            </span><span class="p">.</span><span class="c1">//other Define()s</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="c1">// finally process columns and save to .root file</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="n">d_matched</span><span class="p">.</span><span class="n">Snapshot</span><span class="p">(</span><span class="s">&quot;MMuons&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;MMuons.root&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">col_to_save</span><span class="p">);</span>
+</code></pre></div>
+The output of the <em>extraction</em> step is another <em>.root</em> file containing just the selected objects. </p>
+<h2 id="ok-but-what-do-we-want-to-extract">Ok, but what do we want to extract?!</h2>
+<p>Please read this only if you are interested in the full list of targets and conditioning variables--it is quite a lengthy section and not that useful for later.</p>
+<p>The idea is being able to directly generate correctly distributed Jet objects starting from noise, for stochasticity,  but also from the values of a corresponding GenJet, as a physical-informed input for the network (a process known as <em>conditioning</em>): knowing just the generator-level information of some process, we are going to skip the Simulation, Digitization and Reconstruction steps.</p>
+<p>Because of the large number of variables, we selected a meaningful subset, containing all the necessary information for our test analysis.</p>
+<h3 id="jet-conditioning">Jet conditioning</h3>
+<p>First of all, we selected the following 14 GenJet variables for conditioning the generation: </p>
+<ol>
+<li><strong>The physical properties</strong> of the GenJet, that is <span class="arithmatex">\(\eta\)</span>, <span class="arithmatex">\(\phi\)</span>, <span class="arithmatex">\(m_j\)</span>, <span class="arithmatex">\(p_T\)</span>, and the </li>
+<li>
+<p><strong>Parton</strong> and <strong>Hadron Flavour</strong>, giving the <em>flavour</em> content of a jet as containing a specific quark or some gluons;</p>
+</li>
+<li>
+<p><strong>Variables correlated with the rest of the event</strong>, as the actual properties of a jet are expected to be influenced by other objects such as muons. Computing the <span class="arithmatex">\(\Delta\)</span>R separation between the GenJet and the GenMuons present in the event, we selected the first and second <em>closest muons</em>, and we computed the following quantities for each one:</p>
+</li>
+<li>
+<p><span class="arithmatex">\(\Delta\)</span>R, giving the separation from the GenJet, <span class="arithmatex">\(\Delta \eta\)</span>, the <span class="arithmatex">\(\eta\)</span> difference from the GenJet, <span class="arithmatex">\(\Delta p_T\)</span>, the <span class="arithmatex">\(p_T\)</span> difference from the GenJet, <span class="arithmatex">\(\Delta \phi\)</span>, the <span class="arithmatex">\(\phi\)</span> difference from the GenJet;</p>
+</li>
+<li>
+<p>If no GenMuons were present within a cone of <span class="arithmatex">\(\Delta\)</span>R = 0.5 from the GenJet, the corresponding values were set to a user-defined maximum.</p>
+</li>
+</ol>
+<h3 id="jet-targets">Jet targets</h3>
+<p>Then, we selected the following 17 target reconstructed variables for the matched reconstructed Jet objects:</p>
+<ol>
+<li>
+<p><strong>The physical properties</strong> of the Jet <em>with regard to</em> the ones of the matched GenJet: <span class="arithmatex">\(\Delta\eta\)</span>, the <span class="arithmatex">\(\eta_{reco} - \eta_{gen}\)</span> difference , <span class="arithmatex">\(\Delta\phi\)</span>, the <span class="arithmatex">\(\phi\)</span> difference, <span class="arithmatex">\(R_m\)</span>, the ratio of the jet and GenJet masses, <span class="arithmatex">\(R_{p_T}\)</span>, the ratio of <span class="arithmatex">\(p_T\)</span>s. This was done because the Simulation and Reconstruction steps are expected to introduce corrections w.r.t. the GenJet distributions, easier to learn when considering these quantities. As an additional variable, the Jet Area, a measure of its susceptibility to radiation, like pile-up or underlying event, was added as well;</p>
+</li>
+<li>
+<p>Some of the btag discriminant variables <strong>b-tagging and c-tagging algorithms scores</strong>: btagCMVA, btagCSVV2, btagDeepB, btagDeepC, btagDeepFlavB and btagDeepFlavC, which indicate with a score ranging from 0 to 1 whether the Jet contains the respective quark or not, a very significant information for performing event selection during an analysis. Some values may be offsetted to -1 to indicate that the corresponding tagging algorithm has failed to assign a score to the event;</p>
+</li>
+<li>
+<p><strong>The bRegCorr</strong>, the <span class="arithmatex">\(p_T\)</span> correction for b-jet energy regression, as the presence of neurinos due to semi-leptonic decays in the jets coming from b quarks can result in underestimated jet energy measurements;</p>
+</li>
+<li>
+<p><strong>The qgl score</strong> for the Quark vs Gluon likelihood discriminator, which is employed as most of the interesting physics channels studied at the LHC involve hadronic jets initiated by quarks, while dominant backgrounds often arise from QCD events, where jets are generally produced from gluons;</p>
+</li>
+<li>
+<p><strong>The jetID and puID ID flags</strong> indicating relevant characteristics of the jet as well as the event noise and pile-up.</p>
+</li>
+</ol>
+<h3 id="muons-conditioning">Muons conditioning</h3>
+<p>For muons we performed the same procedure, taking only those muons matching to GenMuon objects (a GenParticle object with pdgId value of +-13). </p>
+<p>We selected 30 GenMuon variables for conditioning:</p>
+<ol>
+<li>
+<p><strong>The physical properties</strong> of the GenMuon, that is <span class="arithmatex">\(\eta\)</span>, <span class="arithmatex">\(\phi\)</span>, Charge and <span class="arithmatex">\(p_T\)</span>;</p>
+</li>
+<li>
+<p><strong>The 14 GenParticle status flags</strong>, a series of \statusFlags stored bitwise, with each bit having a different physical interpretation such as <em>isTauDecayProduct</em>, <em>fromHardProcess</em>, etc. ;</p>
+</li>
+<li>
+<p><strong>Variables correlated with the rest of the event</strong>, as the actual properties of a muon are expected to be influenced by other objects such as jets. Computing the <span class="arithmatex">\(\Delta\)</span>R separation between the GenMuon and the GenJets present in the event, we selected the first <em>closest GenJet</em>, and we computed the following quantities:</p>
+<ul>
+<li><span class="arithmatex">\(\Delta\)</span>R, giving the separation from the GenJet, <span class="arithmatex">\(\Delta\eta\)</span>, the <span class="arithmatex">\(\eta_{muon} - \eta_{jet}\)</span> difference, <span class="arithmatex">\(R_{p_T}\)</span>, the ratio of <span class="arithmatex">\(p_T\)</span>s, <span class="arithmatex">\(\Delta\phi\)</span>, the <span class="arithmatex">\(\phi\)</span> difference, and finally the <span class="arithmatex">\(m_j\)</span> of the closest GenJet;</li>
+</ul>
+</li>
+<li>
+<p>A series of 6 <strong>Event level variables regarding pile-up</strong>: Pileup_gpudensity, the Generator-level PU vertices/mm,Pileup_nPU, the number of pile-up interactions that have been added to the event in the current bunch crossing, Pileup_nTrueInt, the true mean number of the poisson distribution for this event from which the number of interactions each bunch crossing has been sampled, Pileup_pudensity, PU vertices/mm, Pileup_sumEOOT, the number of early out of time pile-up and Pileup_sumLOOT, the number of late out of time pile-up;</p>
+</li>
+</ol>
+<h3 id="muons-targets">Muons targets</h3>
+<p>Then we selected 22 target variables for the Muon objects:</p>
+<ol>
+<li>
+<p><strong>The physical properties</strong> of the muon <strong>with regard to</strong> the ones of the matched GenMuon: <span class="arithmatex">\(\Delta\eta\)</span>, the <span class="arithmatex">\(\eta_{reco} - \eta_{gen}\)</span> difference , <span class="arithmatex">\(\Delta\phi\)</span>, the <span class="arithmatex">\(\phi\)</span> difference, <span class="arithmatex">\(R_{p_T}\)</span>, the ratio of Gen vs reco <span class="arithmatex">\(p_T\)</span>s. This was done because the Simulation and Reconstruction steps are expected to introduce corrections w.r.t. the GenMuon distributions, easier to learn when considering these quantities. As an additional variable, the \texttt{ptErr}, the <span class="arithmatex">\(p_T\)</span> error for the muon track, was selected as well;</p>
+</li>
+<li>
+<p>Six <strong>impact parameters</strong> with respect to the primary vertex, related to the impact parameter <em>d</em>, defined at the distance between the daughter particle trajectory and the mother particle production point. It can be defined by first minimizing the distance on a plane, definig dxy, dxyErr and then minimize on the remaining axis dz, with its dzErr. Alternatively, we can minimize the distance directly in 3 dimensions, obtaining the 3D impact parameter ip3d and its significance sip3d, all expressed in cm;</p>
+</li>
+<li>
+<p>Some <strong>Boolean flags</strong> expressing relevant properties of the object as identified by reconstruction algorithms: isGlobal, isPFcand, identifying the muon as a Particle Flow candidate, isTracker;</p>
+</li>
+<li>
+<p>A series of <strong>isolation variables</strong> returned by the Particle Flow algorithm: pfRelIso03_all, pfRelIso03_chg and pfRelIso04_all;</p>
+</li>
+<li>
+<p>The <strong>variables related to the closest jet</strong>: jetPtRelv2, indicating the relative momentum of the lepton with respect to the closest jet after subtracting the lepton and jetRelIso, the relative isolation in matched jet;</p>
+</li>
+<li>
+<p>A series of <strong>ID scores</strong>: mediumID, softMVA scores and their cut-based Boolean IDs softMVAId, softId;</p>
+</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
